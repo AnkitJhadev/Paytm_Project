@@ -51,7 +51,36 @@ async function main() {
       },
     },
   })
-  console.log({ alice, bob })
+
+  const ankit = await prisma.user.upsert({
+           where :{
+            number : "333333333"
+           },
+           update:{
+
+           },
+           create:{
+            number:"333333333",
+            password : await bcrypt.hash('ankit',10),
+            name : "Ankit",
+            Balance : {
+              create:{
+                amount : 3000,
+                locked : 0
+              }
+            },
+            OnRampTransaction : {
+              create:{
+                startTime: new Date(),
+                status: "Failure",
+                amount: 2000,
+                token: "token__3",
+                provider: "HDFC Bank",
+              }
+            }
+           }
+  })
+  console.log({ alice, bob , ankit })
 }
 main()
   .then(async () => {
